@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<structure>
+	<grid>
+		<row>
+			<cell span="12">
+					<component type="PersonalTools"></component>
+			</cell>
+		</row>
+		
+		<row>
+			<cell span="12">
+				<component type="Logo"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="3">
+			</cell>
+			<cell span="6">
+				<!--<component type="NavbarHorizontal"></component>-->
+			</cell>
+			<cell span="3">
+			</cell>
+		</row>
+		
+		<row>
+			<cell span="12">
+				<component type="TabList"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="12">
+				<component type="SiteNotice"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="12">
+				<component type="MainContent"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="12">
+				<component type="ToolbarHorizontal"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="12">
+				<component type="FooterInfo"></component>
+			</cell>
+		</row>
+		
+		<row>
+			<cell span="4">
+				<component type="FooterPlaces"></component>
+			</cell>
+			<cell span="4">
+				<component type="SearchForm"></component>
+			</cell>
+			<cell span="4">
+				<component type="FooterIcons"></component>
+			</cell>
+		</row>
+
+	</grid>
+</structure>

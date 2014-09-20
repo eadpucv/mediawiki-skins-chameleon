@@ -1,6 +1,6 @@
 <?php
 /**
- * File holding the FooterIcons class
+ * File holding the Structure class
  *
  * @copyright (C) 2013, Stephan Gambke
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 (or later)
@@ -20,52 +20,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @file
- * @ingroup   Chameleon
+ * @ingroup   Skins
  */
 
-/**
- * The FooterIcons class.
- *
- * A inline list containing icons: <ul id="footer-icons" >
- *
- * @ingroup Chameleon
- */
+
 namespace skins\chameleon\components;
 
 
-class FooterIcons extends Component {
+/**
+ * The Structure class.
+ *
+ * @ingroup Skins
+ */
+class Structure extends Component {
 
 	/**
-	 * Builds the HTML code for this component
+	 * Builds the HTML code for the component
 	 *
 	 * @return String the HTML code
 	 */
-	public function getHtml() {
+	public function getHtml(){
 
-		$ret   = null;
-		$icons = $this->getSkinTemplate()->getFooterIcons( "icononly" );
+		$children = $this->getDomElement()->childNodes;
 
-		if ( $icons !== null && count( $icons ) > 0 ) {
+		$ret = '';
 
-			$ret = $this->indent() . '<!-- footer icons -->' .
-				   $this->indent() . '<ul class="list-inline  footer-icons text-center" id="footer-icons" >';
+		$this->indent(1);
 
-			$this->indent( 1 );
-			foreach ( $icons as $blockName => $footerIcons ) {
-
-				$ret .= $this->indent() . '<!-- ' . htmlspecialchars( $blockName ) . ' -->';
-
-				foreach ( $footerIcons as $icon ) {
-					$ret .= $this->indent() . '<li>' .
-							$this->getSkinTemplate()->getSkin()->makeFooterIcon( $icon ) . '</li>';
-				}
-
+		foreach ( $children as $child ) {
+			if ( is_a( $child, 'DOMElement' ) ) {
+				$component = $this->getSkinTemplate()->getComponent( $child, $this->getIndent() );
+				$ret .= $component->getHtml();
 			}
-
-			$ret .= $this->indent( -1 ) . '</ul>' . "\n";
 		}
 
 		return $ret;
-
 	}
+
 }

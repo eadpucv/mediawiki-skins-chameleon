@@ -42,7 +42,7 @@ if ( !defined( 'BS_VERSION' ) ) {
 }
 
 // define the skin's version
-define( 'CHAMELEON_VERSION', '0.1' );
+define( 'CHAMELEON_VERSION', '0.2 alpha' );
 
 // set extension credits
 $wgExtensionCredits['skin'][] = array(
@@ -60,9 +60,18 @@ $wgValidSkinNames['chameleon'] = 'Chameleon';
 // register skin class (must be 'Skin' . SkinName)
 $wgAutoloadClasses['SkinChameleon'] = dirname( __FILE__ ) . '/Chameleon.skin.php';
 
+
+$egChameleonLayoutFile= dirname( __FILE__ ) . '/layouts/standard.xml';
+
 $chameleonComponents = array(
 	'Component',
+	'Structure',
+	'Container',
+	'Row',
+	'Cell',
+	'Grid',
 	'NavbarHorizontal',
+	'NavHead',
 	'TabList',
 	'NewtalkNotifier',
 	'PersonalTools',
@@ -74,6 +83,7 @@ $chameleonComponents = array(
 	'FooterPlaces',
 	'FooterIcons',
 	'MainContent',
+	'Html',
 );
 
 foreach ( $chameleonComponents as $component ) {
