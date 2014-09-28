@@ -44,7 +44,7 @@ class Logo extends Component {
 	public function getHtml() {
 		global $wgStylePath;
 		$attribs  = array( 'href' => $this->getSkinTemplate()->data[ 'nav_urls' ][ 'mainpage' ][ 'href' ] ) + Linker::tooltipAndAccesskeyAttribs( 'p-logo' );
-		$contents = \Html::element( 'img', array( 'src' => $wgStylePath.'/chameleon/img/logo_shakepeers.jpg', 'alt' => $GLOBALS[ 'wgSitename' ] ) );
+		$contents = \Html::element( 'img', array( 'src' => $wgStylePath.'/chameleon/img/logo_shakepeers.svg', 'alt' => $GLOBALS[ 'wgSitename' ] ) );
 
 		return $this->indent() . '<!-- logo and main page link -->' .
 			   $this->indent() . '<div id="p-logo" class="p-logo text-center ' . $this->getClass() . '" role="banner">' .
