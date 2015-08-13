@@ -1,5 +1,5 @@
 {
-	"name"       : "eadpucv/chameleon",
+	"name"       : "mediawiki/chameleon-skin",
 	"type"       : "mediawiki-skin",
 	"description": "A highly flexible MediaWiki skin using Twitter Bootstrap 3",
 	"keywords"   : [
