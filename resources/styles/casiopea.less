@@ -73,3 +73,39 @@ fieldset {
 		}
 	}
 }
+
+/* Forms */
+td.mw-label{
+	label{
+		font-size: 80%;
+		font-weight: bolder !important;
+		color: @gray;
+
+	}
+}
+td.mw-input{
+	select,
+	input,
+	textarea{
+		.form-control;
+		height: auto;
+	}
+	input[type="checkbox"],
+	input[type="radio"]{
+		width: auto;
+		display: inline-block;
+		margin-right: 1ex;
+		width: 16px;
+		height: 16px;
+	}
+	select{
+		width: auto;
+		-webkit-appearance: none;
+	}
+}
+
+button,
+input[type="submit"]{
+	.btn;
+	.btn-default;
+}
