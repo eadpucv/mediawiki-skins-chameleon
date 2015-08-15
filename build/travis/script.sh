@@ -29,11 +29,24 @@ set -x
 originalDirectory=$(pwd)
 
 function installMediaWiki {
+
+	## WMF removed release tags from mediawiki github and there has been no
+	## indication (https://phabricator.wikimedia.org/T100409) whether this is going
+	## to be solved or a permanent state therefore we try to match tags ourselves
+	case "$MW" in
+	'1.22.1')
+	  HASH='11ceb42'
+	  ;;
+	'master')
+	  HASH='master'
+	  ;;
+	esac
+
 	cd ..
 
-	wget https://github.com/wikimedia/mediawiki/archive/$MW.tar.gz
+	wget https://github.com/wikimedia/mediawiki/archive/$HASH.tar.gz -O $MW.tar.gz
 	tar -zxf $MW.tar.gz
-	mv mediawiki-$MW mw
+	mv mediawiki-$HASH* mw
 
 	cd mw
 

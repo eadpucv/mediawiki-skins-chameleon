@@ -4,7 +4,7 @@
  *
  * This file is part of the MediaWiki skin Chameleon.
  *
- * @copyright 2013 - 2014, Stephan Gambke
+ * @copyright 2013 - 2015, Stephan Gambke
  * @license   GNU General Public License, version 3 (or any later version)
  *
  * The Chameleon skin is free software: you can redistribute it and/or modify
@@ -142,9 +142,11 @@ class NavbarHorizontal extends Component {
 		if ( !empty( $elements[ 'right' ] ) ) {
 
 			$elements[ 'left' ][ ] =
-				'<div class="navbar-right-aligned">' .
+				$this->indent( 1 ) . '<div class="navbar-right-aligned">' .
 				implode( $elements[ 'right' ] ) .
-				'</div>';
+				$this->indent() . '</div> <!-- navbar-right-aligned -->';
+
+			$this->indent( -1 );
 		}
 
 		return
@@ -181,16 +183,22 @@ class NavbarHorizontal extends Component {
 
 		if ( is_a( $node, 'DOMElement' ) && $node->tagName === 'component' && $node->hasAttribute( 'type' ) ) {
 
-			$html = $this->buildNavBarElementFromDomElement( $node );
-
 			$position = $node->getAttribute( 'position' );
 
 			if ( !array_key_exists( $position, $elements ) ) {
 				$position = 'left';
 			}
 
+			$indentation = ( $position === 'right' ) ? 2 : 1;
+
+			$this->indent( $indentation );
+			$html = $this->buildNavBarElementFromDomElement( $node );
+			$this->indent( -$indentation );
+
 			$elements[ $position ][ ] = $html;
 
+		} else {
+			// TODO: Warning? Error?
 		}
 	}
 
@@ -266,22 +274,62 @@ class NavbarHorizontal extends Component {
 	 */
 	protected function getPageTools( \DOMElement $domElement = null ) {
 
-		$pageTools = new PageTools( $this->getSkinTemplate(), $domElement, $this->getIndent() );
+		$ret = '';
+
+		$pageTools = new PageTools( $this->getSkinTemplate(), $domElement, $this->getIndent() + 1 );
 
 		$pageTools->setFlat( true );
 		$pageTools->removeClasses( 'text-center list-inline' );
 		$pageTools->addClasses( 'dropdown-menu' );
 
-		$ret = $pageTools->getHtml();
+		$editLinkHtml = '';
+		$pageToolsStructure = $pageTools->getPageToolsStructure();
 
-		if ( $ret !== '' ) {
+		if ( is_bool( $GLOBALS[ 'sfgRenameEditTabs' ] ) &&
+			$GLOBALS[ 'sfgRenameEditTabs' ] === true &&
+			array_key_exists( 'views', $pageToolsStructure ) &&
+			array_key_exists( 'form_edit', $pageToolsStructure[ 'views' ] )
+		) {
+
+			$editLinkHtml = $this->getLinkAndRemoveFromPageToolStructure( $pageTools, 'form_edit' );
+
+		} elseif ( array_key_exists( 'views', $pageToolsStructure ) &&
+			array_key_exists( 've-edit', $pageToolsStructure[ 'views' ] )
+		) {
+
+			$editLinkHtml = $this->getLinkAndRemoveFromPageToolStructure( $pageTools, 've-edit' );
+
+		} elseif ( array_key_exists( 'views', $pageToolsStructure ) &&
+			array_key_exists( 'edit', $pageToolsStructure[ 'views' ] )
+		) {
+
+			$editLinkHtml = $this->getLinkAndRemoveFromPageToolStructure( $pageTools, 'edit' );
+
+		}
+
+		$pageToolsHtml = $pageTools->getHtml();
+
+		if ( $editLinkHtml || $pageToolsHtml ) {
 			$ret =
 				$this->indent() . '<!-- page tools -->' .
-				$this->indent() . '<ul class="nav navbar-nav">' . \Html::openElement( 'li', array( 'class' => 'dropdown' ) ) .
-				$this->indent( 1 ) . '<a data-toggle="dropdown" class="dropdown-toggle" href="#">' . $this->getSkinTemplate()->getMsg( 'specialpages-group-pagetools' )->text() . '<b class="caret"></b></a>' .
-				$ret .
-				$this->indent( -1 ) . '</li></ul>' . "\n";
+				$this->indent() . '<ul class="navbar-tools navbar-nav" >';
+
+			if ( $editLinkHtml !== '' ) {
+				$ret .= $this->indent( 1 ) . $editLinkHtml;
+			}
+
+			if ( $pageToolsHtml !== '' ) {
+				$ret .=
+					$this->indent( 1 ) . '<li class="navbar-tools-tools dropdown">' .
+					$this->indent( 1 ) . '<a data-toggle="dropdown" class="dropdown-toggle" href="#" title="' . $this->getSkinTemplate()->getMsg( 'specialpages-group-pagetools' )->text() . '" ><span>...</span></a>' .
+					$pageToolsHtml .
+					$this->indent( -1 ) . '</li>';
+			}
+
+			$ret .=
+				$this->indent( -1 ) . '</ul>' . "\n";
 		}
+
 		return $ret;
 	}
 
@@ -315,13 +363,15 @@ class NavbarHorizontal extends Component {
 			$toolsLinkText = $this->getSkinTemplate()->getMsg( 'chameleon-notloggedin' )->text();
 		}
 
-		// start personal tools element
+		$linkText = '<span class="glyphicon glyphicon-user"></span>';
+		\Hooks::run('ChameleonNavbarHorizontalPersonalToolsLinkText', array( &$linkText, $this->getSkin() ) );
 
+		// start personal tools element
 		$ret =
 			$this->indent() . '<!-- personal tools -->' .
-			$this->indent() . '<ul class="navbar-personaltools navbar-nav" >' .
-			$this->indent( 1 ) . '<li class="dropdown navbar-personaltools-tools">' .
-			$this->indent( 1 ) . '<a class="dropdown-toggle glyphicon glyphicon-user ' . $toolsClass . '" href="#" data-toggle="dropdown" title="' . $toolsLinkText . '" ></a>' .
+			$this->indent() . '<ul class="navbar-tools navbar-nav" >' .
+			$this->indent( 1 ) . '<li class="dropdown navbar-tools-tools">' .
+			$this->indent( 1 ) . '<a class="dropdown-toggle ' . $toolsClass . '" href="#" data-toggle="dropdown" title="' . $toolsLinkText . '" >' . $linkText . '</a>' .
 			$this->indent() . '<ul class="p-personal-tools dropdown-menu dropdown-menu-right" >';
 
 		$this->indent( 1 );
@@ -332,7 +382,8 @@ class NavbarHorizontal extends Component {
 		}
 
 		$ret .=
-			$this->indent( -1 ) . '</ul>' . $this->indent( -1 ) . '</li>';
+			$this->indent( -1 ) . '</ul>' .
+			$this->indent( -1 ) . '</li>';
 
 		// if the user is logged in, add the newtalk notifier
 		if ( $user->isLoggedIn() ) {
@@ -343,7 +394,7 @@ class NavbarHorizontal extends Component {
 
 			// Allow extensions to disable the new messages alert;
 			// since we do not display the link text, we ignore the actual value returned in $newMessagesAlert
-			if ( wfRunHooks( 'GetNewMessagesAlert', array( &$newMessagesAlert, $newtalks, $user, $out ) ) ) {
+			if ( Hooks::run( 'GetNewMessagesAlert', array( &$newMessagesAlert, $newtalks, $user, $out ) ) ) {
 
 				if ( count( $user->getNewMessageLinks() ) > 0 ) {
 					$newtalkClass = 'navbar-newtalk-available';
@@ -353,9 +404,12 @@ class NavbarHorizontal extends Component {
 					$newtalkLinkText = $this->getSkinTemplate()->getMsg( 'chameleon-nonewmessages' )->text();
 				}
 
+				$linkText = '<span class="glyphicon glyphicon-envelope"></span>';
+				\Hooks::run('ChameleonNavbarHorizontalNewTalkLinkText', array( &$linkText, $this->getSkin() ) );
+
 				$ret .= $this->indent() . '<li class="navbar-newtalk-notifier">' .
-					$this->indent( 1 ) . '<a class="dropdown-toggle glyphicon glyphicon-envelope ' . $newtalkClass . '" title="' .
-					$newtalkLinkText . '" href="' . $user->getTalkPage()->getLinkURL('redirect=no') . '"></a>' .
+					$this->indent( 1 ) . '<a class="dropdown-toggle ' . $newtalkClass . '" title="' .
+					$newtalkLinkText . '" href="' . $user->getTalkPage()->getLinkURL( 'redirect=no' ) . '">' . $linkText . '</a>' .
 					$this->indent( -1 ) . '</li>';
 
 			}
@@ -390,13 +444,13 @@ class NavbarHorizontal extends Component {
 	protected function buildHead( $headElements ) {
 
 		$head =
-			"<div class=\"navbar-header\">\n" .
-			"\t<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#" . $this->getHtmlId() . "-collapse\">\n" .
-			"\t\t<span class=\"sr-only\">Toggle navigation</span>\n" .
-			str_repeat( "\t\t<span class=\"icon-bar\"></span>\n", 3 ) .
-			"\t</button>\n" .
+			$this->indent() . "<div class=\"navbar-header\">\n" .
+			$this->indent( 1 ) . "<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#" . $this->getHtmlId() . "-collapse\">" .
+			$this->indent( 1 ) . "<span class=\"sr-only\">Toggle navigation</span>" .
+			$this->indent() . str_repeat( "<span class=\"icon-bar\"></span>", 3 ) .
+			$this->indent( -1 ) . "</button>\n" .
 			implode( '', $headElements ) . "\n" .
-			"</div>\n";
+			$this->indent( -1 ) . "</div>\n";
 
 		return $head;
 	}
@@ -408,8 +462,10 @@ class NavbarHorizontal extends Component {
 	 */
 	protected function buildTail( $tailElements ) {
 
-		return '<div class="collapse navbar-collapse" id="' . $this->getHtmlId() . '-collapse">' .
-		implode( '', $tailElements ) . '</div><!-- /.navbar-collapse -->';
+		return
+			$this->indent() . '<div class="collapse navbar-collapse" id="' . $this->getHtmlId() . '-collapse">' .
+			implode( '', $tailElements ) .
+			$this->indent() . '</div><!-- /.navbar-collapse -->';
 	}
 
 	/**
@@ -419,6 +475,43 @@ class NavbarHorizontal extends Component {
 		return
 			$this->indent( -1 ) . '</div>' .
 			$this->indent( -1 ) . '</nav>' . "\n";
+	}
+
+	/**
+	 * @param $pageTools
+	 * @param $editActionId
+	 *
+	 * @return string
+	 */
+	protected function getLinkAndRemoveFromPageToolStructure( $pageTools, $editActionId ) {
+
+		$pageToolsStructure  = $pageTools->getPageToolsStructure();
+		$editActionStructure = $pageToolsStructure[ 'views' ][ $editActionId ];
+
+		$editActionStructure[ 'text' ] = '';
+
+		if ( array_key_exists( 'class', $editActionStructure ) ) {
+			$editActionStructure[ 'class' ] .= ' navbar-tools-tools';
+		} else {
+			$editActionStructure[ 'class' ] = 'navbar-tools-tools';
+		}
+
+		$options = array (
+			'text-wrapper' => array(
+				'tag' => 'span',
+				'attributes' => array('class' => 'glyphicon glyphicon-pencil',)
+			),
+		);
+
+		$editLinkHtml = $this->getSkinTemplate()->makeListItem(
+			$editActionId,
+			$editActionStructure,
+			$options
+		);
+
+		$pageTools->setRedundant( $editActionId );
+
+		return $editLinkHtml;
 	}
 
 }
