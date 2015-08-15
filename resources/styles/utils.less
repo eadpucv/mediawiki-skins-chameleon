@@ -88,3 +88,13 @@ div.tleft {
 		}
 	}
 }
+
+/* hspencer overrides */
+
+.hyphens(...) {
+  @process: ~`(function(e){return e=e||"manual"})((function(){var e="@{arguments}";return e=e.replace(/^\[|\]$/g,"")})())`;
+  -webkit-hyphens: @process;
+  -moz-hyphens: @process;
+  -ms-hyphens: @process;
+  hyphens: @process;
+}

@@ -23,11 +23,15 @@
 #mw-content-text{
 	font-size: 18px;
 	line-height: 180%;
+	font-weight: 300;
 	p{
+		.hyphens(auto);
+		word-break: all;
 		text-align: justify;
-	    -webkit-hyphens: auto;
-		-moz-hyphens: auto;
-		hyphens: auto;
+		text-justify: distribute;
+		-moz-text-align-last: left; /* Code for Firefox */
+	    text-align-last: left;
+		word-spacing: normal;
 	}
 }
 
@@ -84,6 +88,9 @@ td.mw-label{
 	}
 }
 td.mw-input{
+	
+	margin-bottom: 1.3ex; // para separar las líneas
+
 	select,
 	input,
 	textarea{
@@ -108,4 +115,10 @@ button,
 input[type="submit"]{
 	.btn;
 	.btn-default;
+}
+
+textarea{
+	.form-control;
+	height: auto;
+	font-family: @font-family-monospace;
 }
