@@ -1,39 +1,11 @@
 ## Release Notes
 
-### Chameleon 1.2
-
-Released on (tbd)
-
-This release may break customized styles for the NavbarHorizontal component.
-
-Changes:
-* Restructured the Page Tools on Navbars: The 'Edit' action and the Page Tools'
-  menu button got icons and were offset from the rest of the menus.
-* 'Edit' link links to the proper Visual Editor action if the
-  [VE extension](https://www.mediawiki.org/wiki/VisualEditor) is present
-* 'Edit' link links to the proper Semantic Forms action if the
-  [SF extension](https://www.mediawiki.org/wiki/Extension:Semantic_Forms) is
-  present and `$sfgRenameEditTabs` is set
-* Improve styleability of tool buttons in NavbarHorizontal (wrap the button
-  label in a span) and rework rework styling of the buttons
-* Add ChameleonNavbarHorizontalPersonalToolsLinkText hook
-* Add ChameleonNavbarHorizontalNewTalkLinkText hook
-* New less style variables @toolbar-height, @toolbar-padding-vertical,
-  @toolbar-padding-horizontal
-
-Fixes:
-* Use variable @hr-border for color of lower border of first heading
-* Some style issues for VisualEditor
-* The 'Page' link was not shown in Edit mode
-* Some themes (e.g. spacelab, cerulian) overrode the toolbar padding when the
-  mouse hovered over links
-
 ### Chameleon 1.1.4
 
 Released on 27-May-2015
 
 Fixes:
-* Do not show mw-headline-anchor
+* Remove mw-headline-anchor
 * Fix Message icon linking to non-existent page
   ([Bug: T100550](https://phabricator.wikimedia.org/T100550))
 
