@@ -310,16 +310,16 @@ pre, code, tt, kbd, samp, .mw-code {
 
 code {
 	color: black;
-	background-color: #f9f9f9;
-	border: 1px solid #ddd;
+	background-color: @code-bg;
+	border: 1px solid darken(@code-bg, 10);
 	border-radius: 2px;
 	padding: 1px 4px;
 }
 
 pre, .mw-code {
 	color: black;
-	background-color: #f9f9f9;
-	border: 1px solid #ddd;
+	background-color: @code-bg;
+	border: 1px solid darken(@code-bg, 10);
 	padding: 1em;
 }
 
@@ -335,7 +335,7 @@ table {
 
 /* Forms */
 fieldset {
-	border: 1px solid #2f6fab;
+	border: 1px solid fade(@gray-light, 70);
 	margin: 1em 0 1em 0;
 	padding: 0 1em 1em;
 	line-height: 1.5em;
@@ -348,7 +348,11 @@ fieldset.nested {
 
 legend {
 	padding: .5em;
-	font-size: 95%;
+	font-size: 80%;
+	text-transform: uppercase;
+	letter-spacing: .2ex;
+	color: fade(@gray-light, 70);
+	font-weight: bolder;
 }
 
 form {
