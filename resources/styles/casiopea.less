@@ -6,6 +6,7 @@
  * @hspencer
  */
 
+a:active{color: #C00}
 
 #p-logo{
 	padding: 9px 25px;
@@ -21,6 +22,7 @@
 }
 
 #mw-content-text{
+	a{font-weight: 400}
 	font-size: 18px;
 	line-height: 180%;
 	font-weight: 300;
@@ -53,16 +55,7 @@
 /** forms **/
 
 fieldset {
-    border: 1px solid fade(@gray-light, 70);
     border-radius: 4px;
-    legend{
-	    padding: 0.5em;
-	    font-size: 80%;
-	    text-transform: uppercase;
-	    letter-spacing: .2ex;
-	    color: fade(@gray-light, 70);
-	    font-weight: bolder;
-    }
 }
 
 #footer-links{
@@ -113,7 +106,8 @@ td.mw-input{
 }
 
 button,
-input[type="submit"]{
+input[type="submit"],
+input[type="button"]{
 	.btn;
 	.btn-default;
 }
