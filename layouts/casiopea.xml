@@ -34,12 +34,14 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		<component type="PersonalTools" position="right"></component>
 	</component>
 
-	
-	<component type="Menu" message="secondary-menu"></component>
-	<component type="PageTools" hideSelectedNameSpace="1"></component>
-	
-
 	<grid>
+		<row>
+			<cell span="12">
+				<component type="Menu" message="secondary-menu"></component>
+				<component type="PageTools" hideSelectedNameSpace="1"></component>
+			</cell>
+		</row>
+
 		<row>
 			<cell span="12">
 				<component type="SiteNotice"></component>

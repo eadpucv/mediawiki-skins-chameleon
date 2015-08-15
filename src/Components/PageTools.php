@@ -57,7 +57,7 @@ class PageTools extends Component {
 
 		// add classes for the normal case where the page tools are displayed as a first class element;
 		// these classes should be removed if the page tools are part of another element, e.g. nav bar
-		$this->addClasses( 'list-inline text-center' );
+		$this->addClasses( 'page-tools' );
 	}
 
 	/**
@@ -86,8 +86,8 @@ class PageTools extends Component {
 				$this->indent( 1 ) . '<!-- Content navigation -->' .
 				$this->indent() . \Html::openElement( 'ul',
 					array(
-						'class' => 'p-contentnavigation ' . $this->getClassString(),
-						'id'    => IdRegistry::getRegistry()->getId( 'p-contentnavigation' ),
+						'class' => 'page-toolbar nav nav-pills ' . $this->getClassString(),
+						'id'    => IdRegistry::getRegistry()->getId( 'page-tools' ),
 					) ) .
 				$ret .
 				$this->indent() . '</ul>';
@@ -182,7 +182,7 @@ class PageTools extends Component {
 		// output the name of the current category (e.g. 'namespaces', 'views', ...)
 		$ret = $this->indent() .
 			\Html::openElement( 'li', array( 'id' => IdRegistry::getRegistry()->getId( 'p-' . $category ) ) ) .
-			$this->indent( 1 ) . '<ul class="list-inline" >';
+			$this->indent( 1 ) . '<ul class="nav nav-pills" >';
 
 		$this->indent( 1 );
 		return $ret;
