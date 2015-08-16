@@ -305,7 +305,7 @@ pre, code, tt, kbd, samp, .mw-code {
 	 * Some browsers will render the monospace text too small, namely Firefox, Chrome and Safari.
 	 * Specifying any valid, second value will trigger correct behavior without forcing a different font.
 	 */
-	font-family: monospace, Courier;
+	font-family: @font-family-monospace;
 }
 
 code {
@@ -361,9 +361,8 @@ form {
 }
 
 textarea {
-	width: 100%;
-	padding: .1em;
-	display: block;
+	.input-like;
+	font-family: @font-family-monospace;
 }
 
 select {
@@ -381,12 +380,11 @@ table.small {
 }
 
 .mw-warning {
-	border: 1px solid #aaa;
-	background-color: #f9f9f9;
-	padding: 5px;
-	font-size: 95%;
-	margin-left: 50px;
-	margin-right: 50px;
+	border: 1px solid @brand-warning;
+	background-color: fade(@brand-warning, 20);
+	padding: @padding-base-vertical @padding-base-horizontal;
+	font-size: .95em;
+	margin: 0 2em;
 	text-align: center;
 }
 

@@ -52,7 +52,7 @@ class ToolbarHorizontal extends Component {
 
 		$ret = $this->indent() . '<!-- ' . htmlspecialchars( $skinTemplate->getMsg( 'toolbox' )->text() ) . '-->' .
 			   $this->indent() . '<nav class="nav nav-pills p-tb ' . $this->getClassString() . '" id="footer-links" ' . Linker::tooltip( 'p-tb' ) . ' >' .
-			   $this->indent( 1 ) . '<ul class="nav mav-pills small">';
+			   $this->indent( 1 ) . '<ul class="nav nav-pills small">';
 
 		// insert toolbox items
 		// TODO: Do we need to care of dropdown menus here? E.g. RSS feeds? See SkinTemplateToolboxEnd.php:1485

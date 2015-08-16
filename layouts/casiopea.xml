@@ -23,9 +23,6 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 @ingroup Skins
 -->
 <structure>
-
-
-
 	<component type="NavbarHorizontal" class="full-width">
 		<modification type="Sticky"></modification>
 		<component type="Logo" position="head"></component>
