@@ -23,7 +23,6 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 @ingroup Skins
 -->
 <structure>
-
 	<component type="NavbarHorizontal" >
 		<modification type="ShowOnlyFor" permission="edit"></modification>
 		<modification type="Sticky" ></modification>
@@ -33,7 +32,6 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		<component type="SearchBar" position="right"></component>
 		<component type="PersonalTools" position="right"></component>
 	</component>
-
 	<grid>
 		<row>
 			<cell span="12">
@@ -55,6 +53,5 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 				<component type="FooterInfo" class="list-inline"></component>
 			</cell>
 		</row>
-
 	</grid>
 </structure>

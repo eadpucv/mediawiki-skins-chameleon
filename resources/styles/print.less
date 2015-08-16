@@ -39,21 +39,37 @@
 	.noprint,
 	.navbar,
 	.mw-editsection, .mw-editsection-like, .toctoggle, .magnify, .footer-places {
-		.hidden();
+	.hidden();
 	}
 
-}
 
 /* hspencer overrides */
 
-@media print { 
+
 	#bar,
 	#column-one, 
 	#menu, 
 	ul.meta, 
 	#header, 
-	#footer, 
+	#footer,
+	#page-tools,
+	#footer-links,
+	#footer-icons,
+	.patrollink,
 	#nav {display: none !important; }
 	#bodyContent{width: 100% !important}
 	a[href]:after{content: none !important}
+
+	#footer-info{
+		font-size: 8pt;
+		&:after{
+			// para hacer un footer en todas las páginas
+			/* position: fixed;
+			 bottom: 0; */
+			display: inline-block;
+			font-weight: bold;
+			margin-top: 1em;
+			content: "e[ad] Escuela de Arquitectura y Diseño ~ Pontificia Universidad Católica de Valparaíso"
+		}
+	}
 }
