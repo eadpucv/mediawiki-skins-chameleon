@@ -165,5 +165,33 @@ table.formtable{}
 	label.checkboxLabel{
 		font-weight: normal;
 		font-size: 80%;
+		margin-right: 1em;
+	}
+}
+
+/* MediaWiki Elements */
+
+.thumbcaption {
+    padding: 1ex;
+    color: #333;
+    text-align: left;
+    font-size: .75em;
+    font-weight: normal;
+}
+
+.mw-editsection{
+	float: right;
+	.mw-editsection-bracket{display: none;}
+	a{
+		.label;
+		color: @gray;
+		background-color: @gray-lighter;
+		font-family: @font-family-sans-serif;
+		text-transform: uppercase;
+		font-weight: bolder;
+		&:hover{
+			color: #FFF;
+			background-color: @brand-primary;
+		}
 	}
 }
