@@ -118,6 +118,7 @@ td.mw-input{
 	}
 }
 
+#powerSearchText,
 input.mw-summary{
 	.form-control;
 }
@@ -166,6 +167,11 @@ input[type="button"]{
 	}
 }
 
+form#powersearch fieldset#mw-searchoptions table tbody tr td{
+	padding-bottom: 5px !important;
+	width: 50%;
+}
+
 /* MediaWiki Elements __________________________________________________*/
 
 .thumbcaption {
@@ -205,15 +211,17 @@ input[type="button"]{
 table{
 	border-collapse: collapse;
 	border: none !important;
-	width:100%;
+	width: 100%;
 	
-	&.searchResultImage{
-		img{margin-right: 1em}
-	}
-	
+	td,
 	th{
 		padding: 1ex;
 	}
+}
+
+.searchResultImage img,
+.mw-search-results img{
+	margin-right: 1em;
 }
 
 tr, td, th{
