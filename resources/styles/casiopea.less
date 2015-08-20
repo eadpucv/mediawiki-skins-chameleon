@@ -25,7 +25,13 @@
 	
 	strong, 
 	b{
-		font-weight: bolder !important;
+		font-weight: 700 !important;
+	}
+
+	em,
+	i{
+		font-weight: 400;
+		font-style: italic;
 	}
 	
 	font-size: 1.1em;
@@ -160,7 +166,7 @@ input[type="button"]{
 }
 
 form#powersearch fieldset#mw-searchoptions table tbody tr td{
-	padding-bottom: 5px !important;
+	padding-bottom: 0 !important;
 	width: 50%;
 }
 
@@ -193,6 +199,7 @@ form#powersearch fieldset#mw-searchoptions table tbody tr td{
 		&:hover{
 			color: #FFFFFF;
 			background-color: @brand-primary;
+			text-decoration: none;
 		}
 	}
 }
@@ -225,4 +232,17 @@ table.smwtable tr.row-odd{background-color:  #ffffff}
 table.smwtable tr.row-even{background-color: #f5f5f5}
 table.smwtable thead tr th{
 	text-align: left;
+}
+
+/* Referencias, del plugin 'cite.php' _______________________________________________________ */
+
+ol.references{
+	font-family: Georgia;
+	font-size: 0.9em;
+	margin-left: 100px;
+}
+
+ol.references li{
+	text-indent: 0;
+	margin-bottom: 1em;
 }
