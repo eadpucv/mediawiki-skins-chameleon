@@ -47,7 +47,7 @@ call_user_func( function () {
 	}
 
 	// define the skin's version
-	define( 'CHAMELEON_VERSION', '1.2-eadpucv' );
+	define( 'CHAMELEON_VERSION', '2.0.3' );
 
 
 	// set credits
