@@ -47,7 +47,7 @@ call_user_func( function () {
 	}
 
 	// define the skin's version
-	define( 'CHAMELEON_VERSION', '2.0.3' );
+	define( 'CHAMELEON_VERSION', '2.0.4' );
 
 
 	// set credits
