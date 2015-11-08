@@ -19,38 +19,56 @@ You should have received a copy of the GNU General Public License along
 with this program. If not, see <http://www.gnu.org/licenses/>.
 
 @author Stephan Gambke
-@since 1.1
+@since 1.0
 @ingroup Skins
 -->
 <structure>
-	<component type="NavbarHorizontal" >
-		<modification type="ShowOnlyFor" permission="edit"></modification>
-		<modification type="Sticky" ></modification>
+	<component type="NavbarHorizontal" class="full-width">
+		<modification type="Sticky"></modification>
 		<component type="Logo" position="head"></component>
 		<component type="NavMenu" flatten="navigation"></component>
-		<component type="PageTools" hideSelectedNameSpace="1"></component>
 		<component type="SearchBar" position="right"></component>
 		<component type="PersonalTools" position="right"></component>
 	</component>
+
 	<grid>
 		<row>
 			<cell span="12">
+				<component type="Menu" message="secondary-menu"></component>
+				<component type="PageTools" hideSelectedNameSpace="1"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="12">
 				<component type="SiteNotice"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="12">
 				<component type="MainContent"></component>
 			</cell>
 		</row>
 
 		<row>
-			<modification type="ShowOnlyFor" permission="edit"></modification>
 			<cell span="12">
 				<component type="ToolbarHorizontal"></component>
 			</cell>
 		</row>
 
 		<row>
-			<modification type="ShowOnlyFor" permission="edit"></modification>
 			<cell span="12">
-				<component type="FooterInfo" class="list-inline"></component>
+				<component type="FooterInfo"></component>
+			</cell>
+		</row>
+
+		<row>
+			<cell span="6">
+				<component type="FooterPlaces"></component>
+			</cell>
+			<cell span="6">
+				<component type="FooterIcons"></component>
 			</cell>
 		</row>
 	</grid>

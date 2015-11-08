@@ -51,8 +51,8 @@ class ToolbarHorizontal extends Component {
 		$skinTemplate = $this->getSkinTemplate();
 
 		$ret = $this->indent() . '<!-- ' . htmlspecialchars( $skinTemplate->getMsg( 'toolbox' )->text() ) . '-->' .
-			   $this->indent() . '<nav class="navbar navbar-default p-tb ' . $this->getClassString() . '" id="p-tb" ' . Linker::tooltip( 'p-tb' ) . ' >' .
-			   $this->indent( 1 ) . '<ul class="nav navbar-nav small">';
+			   $this->indent() . '<nav class="nav nav-pills p-tb ' . $this->getClassString() . '" id="footer-links" ' . Linker::tooltip( 'p-tb' ) . ' >' .
+			   $this->indent( 1 ) . '<ul class="nav nav-pills small">';
 
 		// insert toolbox items
 		// TODO: Do we need to care of dropdown menus here? E.g. RSS feeds? See SkinTemplateToolboxEnd.php:1485
@@ -64,7 +64,7 @@ class ToolbarHorizontal extends Component {
 		ob_start();
 		// We pass an extra 'true' at the end so extensions using BaseTemplateToolbox
 		// can abort and avoid outputting double toolbox links
-		Hooks::run( 'SkinTemplateToolboxEnd', array( &$skinTemplate, true ) );
+		wfRunHooks( 'SkinTemplateToolboxEnd', array( &$skinTemplate, true ) );
 		$ret .= $this->indent() . ob_get_contents();
 		ob_end_clean();
 

@@ -26,7 +26,6 @@
 
 namespace Skins\Chameleon\Components;
 
-use Action;
 use MWNamespace;
 use Skins\Chameleon\ChameleonTemplate;
 use Skins\Chameleon\IdRegistry;
@@ -46,12 +45,11 @@ use Skins\Chameleon\IdRegistry;
 class PageTools extends Component {
 
 	private $mFlat = false;
-	private $mPageToolsStructure = null;
 
 	/**
 	 * @param ChameleonTemplate $template
-	 * @param \DOMElement|null $domElement
-	 * @param int $indent
+	 * @param \DOMElement|null  $domElement
+	 * @param int               $indent
 	 */
 	public function __construct( ChameleonTemplate $template, \DOMElement $domElement = null, $indent = 0 ) {
 
@@ -59,7 +57,7 @@ class PageTools extends Component {
 
 		// add classes for the normal case where the page tools are displayed as a first class element;
 		// these classes should be removed if the page tools are part of another element, e.g. nav bar
-		$this->addClasses( 'list-inline text-center' );
+		$this->addClasses( 'page-tools' );
 	}
 
 	/**
@@ -69,7 +67,7 @@ class PageTools extends Component {
 	 */
 	public function getHtml() {
 
-		$contentNavigation = $this->getPageToolsStructure();
+		$contentNavigation = $this->getSkinTemplate()->data[ 'content_navigation' ];
 
 		if ( $this->hideSelectedNamespace() ) {
 			unset( $contentNavigation[ 'namespaces' ][ $this->getNamespaceKey() ] );
@@ -88,8 +86,8 @@ class PageTools extends Component {
 				$this->indent( 1 ) . '<!-- Content navigation -->' .
 				$this->indent() . \Html::openElement( 'ul',
 					array(
-						'class' => 'p-contentnavigation ' . $this->getClassString(),
-						'id'    => IdRegistry::getRegistry()->getId( 'p-contentnavigation' ),
+						'class' => 'page-toolbar nav nav-pills ' . $this->getClassString(),
+						'id'    => IdRegistry::getRegistry()->getId( 'page-tools' ),
 					) ) .
 				$ret .
 				$this->indent() . '</ul>';
@@ -99,23 +97,12 @@ class PageTools extends Component {
 	}
 
 	/**
-	 * @return mixed
-	 */
-	public function &getPageToolsStructure() {
-		if ( $this->mPageToolsStructure === null ) {
-			$this->mPageToolsStructure = $this->getSkinTemplate()->data[ 'content_navigation' ];
-		}
-		return $this->mPageToolsStructure;
-	}
-
-	/**
 	 * @return bool
 	 */
 	protected function hideSelectedNamespace() {
 		return
 			$this->getDomElement() !== null &&
-			filter_var( $this->getDomElement()->getAttribute( 'hideSelectedNameSpace' ), FILTER_VALIDATE_BOOLEAN ) &&
-			Action::getActionName( $this->getSkin() ) === 'view';
+			filter_var( $this->getDomElement()->getAttribute( 'hideSelectedNameSpace' ), FILTER_VALIDATE_BOOLEAN );
 	}
 
 	/**
@@ -157,7 +144,7 @@ class PageTools extends Component {
 	}
 
 	/**
-	 * @param string $category
+	 * @param string    $category
 	 * @param mixed[][] $tabsDescription
 	 *
 	 * @return string
@@ -195,7 +182,7 @@ class PageTools extends Component {
 		// output the name of the current category (e.g. 'namespaces', 'views', ...)
 		$ret = $this->indent() .
 			\Html::openElement( 'li', array( 'id' => IdRegistry::getRegistry()->getId( 'p-' . $category ) ) ) .
-			$this->indent( 1 ) . '<ul class="list-inline" >';
+			$this->indent( 1 ) . '<ul class="nav nav-pills" >';
 
 		$this->indent( 1 );
 		return $ret;
@@ -203,7 +190,7 @@ class PageTools extends Component {
 
 	/**
 	 * @param mixed[] $tabDescription
-	 * @param string $key
+	 * @param string  $key
 	 *
 	 * @return string
 	 */
@@ -240,27 +227,6 @@ class PageTools extends Component {
 	 */
 	public function setFlat( $flat ) {
 		$this->mFlat = $flat;
-	}
-
-	/**
-	 * Set the page tool menu to have submenus or not
-	 *
-	 * @param string|string[] $tools
-	 */
-	public function setRedundant( $tools ) {
-		if ( is_string( $tools ) ) {
-			$tools = array( $tools );
-		}
-
-		$pageToolsStructure = &$this->getPageToolsStructure();
-
-		foreach ( $tools as $tool ) {
-			foreach ( $pageToolsStructure as $group => $groupStructure ) {
-				if ( array_key_exists( $tool, $groupStructure ) ) {
-					$pageToolsStructure[ $group ][ $tool ][ 'redundant' ] = true;
-				}
-			}
-		}
 	}
 
 

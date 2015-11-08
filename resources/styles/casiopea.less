@@ -1,0 +1,322 @@
+/**
+ * Ajustes para Casiopea
+ *
+ * @author Herbert Spencer
+ * @since 1.1.4
+ * @hspencer
+ */
+
+
+#mw-navigation{
+	.ruido;
+	.sombra-sm;
+}
+
+#p-logo{
+	padding: 9px 25px;
+	background-color: black;
+	
+	&:hover{
+		background-color: darken(@brand-primary, 17);
+	}
+
+	a:hover{
+		background-color: transparent;
+	}
+}
+
+#mw-content-text{
+	font-size: 1.1em;
+	line-height: 180%;
+	font-weight: 300;
+	
+	a{
+		font-weight: normal;
+	}
+	
+	strong, b{
+		font-weight: 700 !important;
+		a{
+			font-weight: 700;
+		}
+	}
+
+	em, i{
+		font-weight: 400;
+		font-style: italic;
+	}
+
+	p{
+		.hyphens(auto);
+		word-break: all;
+		text-align: justify;
+		text-justify: distribute;
+		-moz-text-align-last: left;
+	    text-align-last: left;
+		word-spacing: normal;
+	}
+
+	ol, ul, p{
+		line-height: 180%;
+	}
+
+	img{
+		max-width: 100%;
+	}
+}
+
+
+/* Títulos */
+
+h1, h2, h3, h4, h5, h6{
+	padding: 0;
+	margin: 3em 0 1em;
+}
+
+h1.firstHeading{
+	font-size: 48px;
+	font-weight: 100;
+	margin-top: 0;
+}
+
+h1, h3, h5{
+	margin: 2.5em 0 .5em 0;
+	font-weight: 900;
+}
+
+h2, h4, h6{
+	font-family: @font-family-serif;
+	font-weight: bold;
+}
+
+
+#wpTextbox1 {
+	font-family: @font-family-monospace !important; 
+	margin: 0px;
+	display: block;
+	border-radius: 5px 5px 0 0;
+}
+
+#page-tools,
+.page-toolbar{
+	margin: 1.6em 0 1em 0;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+#footer-links{
+	padding: 1em 0;
+	border-top: 1px solid @gris;
+	border-bottom: 1px solid @gris;
+	margin-bottom: 1em;
+	ul.nav{
+		display: inline;
+		li{
+			display: inline-block;
+		}
+	}
+}
+
+#page-tools{
+	ul{
+		li{
+			&.selected{
+				box-shadow: 0 -3px 0 0 @brand-primary inset;
+			}
+		}
+	}
+}
+
+#toc{
+	font-family: @font-family-serif;
+	font-size: 15px;
+	margin-bottom: 3em;
+	li{
+		font-size: .95em;
+		line-height: 1.75em;
+	}
+}
+
+ol.references{
+	font-family: @font-family-serif;
+	li{
+		font-size: .7em;
+		line-height: 1.75em;
+	}
+	margin-bottom: 3em;
+}
+
+/* Forms ______________________________________________________________ */
+
+fieldset {
+    border-radius: 4px;
+}
+
+td.mw-label{
+	padding-right: 1em;
+	width: 20%;
+	font-weight: bold;
+	label{
+		font-size: 80%;
+		color: @gray;
+	}
+}
+
+
+td.mw-input{
+	input[type="checkbox"],
+	input[type="radio"]{
+		width: auto;
+		display: inline-block;
+		margin-right: 1ex;
+		width: 16px;
+		height: 16px;
+	}
+
+	input{
+		.form-control;
+	}
+
+	label{
+		font-weight: normal;
+	}
+}
+
+
+#searchText,
+#powerSearchText,
+input.mw-summary{
+	.input-like;
+	font-weight: 700;
+}
+
+
+select{
+	.input-like;
+	option{
+		padding: 0 @padding-base-horizontal;
+	}
+}
+
+button,
+input[type="submit"],
+input[type="button"]{
+	.btn;
+	.btn-default;
+	&[value="Confirmar"],
+	&#wpSave{
+		.btn-success;
+	}
+}
+
+/* Semantic Forms */
+
+.inputSpan{
+	input{
+		.form-control;
+	}
+}
+
+.checkboxesSpan{
+	label.checkboxLabel{
+		font-weight: normal;
+		font-size: 80%;
+		margin-right: 1em;
+	}
+}
+
+form#powersearch fieldset#mw-searchoptions table tbody tr td{
+	padding-bottom: 0 !important;
+	width: 50%;
+}
+
+/* MediaWiki Elements __________________________________________________ */
+
+.thumbcaption {
+    padding: 1ex;
+    color: darken(@gray-dark, 20);
+    text-align: left;
+    font-size: .75em;
+    line-height: 1.2em;
+    font-weight: normal;
+}
+
+.gallerytext{
+	font-size: .65em;
+	text-align: left;
+}
+
+.mw-editsection{
+	float: right;
+	.mw-editsection-bracket{display: none}
+	a{
+		.label;
+		color: @gray;
+		background-color: @gray-lighter;
+		font-family: @font-family-sans-serif;
+		text-transform: uppercase;
+		font-weight: bolder;
+		&:hover{
+			color: #FFFFFF;
+			background-color: @brand-primary;
+			text-decoration: none;
+		}
+	}
+}
+
+/* Tables ______________________________________________________________*/
+
+
+table{
+	border-collapse: collapse;
+	border: none !important;
+	width: 100%;
+}
+
+.searchResultImage img,
+.mw-search-results img{
+	margin-right: 1em;
+}
+
+td, th{padding: 1ex;}
+
+tr, td, th{
+	border: none !important;
+}
+
+table.smwtable td{
+	padding: 1ex 0;
+}
+
+table.smwtable tr.row-odd{background-color:  #ffffff}
+table.smwtable tr.row-even{background-color: #f5f5f5}
+table.smwtable thead tr th{
+	text-align: left;
+}
+
+/* Google Maps ____________________________*/
+
+.maps-map,
+.maps-googlemaps3{
+	border-radius: 3px;
+}
+
+.cuadro-blanco{
+	.sombra;
+	background-color: #FFFFFF;
+	padding: 1em;
+}
+
+.fila-blanca{
+	.sombra;
+	background-color: #FFFFFF;
+	padding: 1em 0;
+}
+
+
+/* Iframes (para Google Widgets, Docs, Spreadsheets, etc ________________ */
+
+iframe{
+	.sombra;
+}

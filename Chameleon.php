@@ -49,6 +49,7 @@ call_user_func( function () {
 	// define the skin's version
 	define( 'CHAMELEON_VERSION', '1.2-eadpucv' );
 
+
 	// set credits
 	$GLOBALS[ 'wgExtensionCredits' ][ 'skin' ][ ] = array(
 		'path'           => __FILE__,
