@@ -1,3 +1,5 @@
+Versión adaptada para @eadpucv
+
 # Chameleon skin
 [![Build Status](https://travis-ci.org/wikimedia/mediawiki-skins-chameleon.svg?branch=master)](https://travis-ci.org/wikimedia/mediawiki-skins-chameleon)
 [![Code Coverage](https://scrutinizer-ci.com/g/wikimedia/mediawiki-skins-chameleon/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wikimedia/mediawiki-skins-chameleon/?branch=master)
