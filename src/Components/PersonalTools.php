@@ -51,7 +51,7 @@ class PersonalTools extends Component {
 		// TODO: make including the NewTalkNotifier dependent on an option (PREPEND, APPEND, OFF)
 		$newtalkNotifier = new NewtalkNotifier( $this->getSkinTemplate(), null, $this->getIndent() + 2 );
 
-		$ret .= $this->indent( 1 ) . '<ul class="p-personal-tools list-inline pull-right" >';
+		$ret .= $this->indent( 1 ) . '<ul class="p-personal-tools list-inline pull-right" style="font-size:0.9em;" >';
 
 		$this->indent( 1 );
 
@@ -61,7 +61,11 @@ class PersonalTools extends Component {
 		}
 
 		$ret .= $this->indent( -1 ) . '</ul>' .
+<<<<<<< HEAD:src/Components/PersonalTools.php
 				$this->indent() . '<div class="newtalk-notifier">' . $newtalkNotifier->getHtml() .
+=======
+				$this->indent() . '<div class="newtalk-notifier pull-left">' . $newtalkNotifier->getHtml() .
+>>>>>>> ShakePeers/shakepeers:components/PersonalTools.php
 				$this->indent() . '</div>' .
 				$this->indent( -1 ) . '</div>' . "\n";
 

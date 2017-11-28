@@ -35,6 +35,7 @@
  *
  * This shim maintains compatibility back to MediaWiki 1.17.
  */
+<<<<<<< HEAD
 $messages = array();
 if ( !function_exists( 'wfJsonI18nShimf931c1431e4504b8' ) ) {
 	function wfJsonI18nShimf931c1431e4504b8( $cache, $code, &$cachedData ) {
@@ -58,3 +59,26 @@ if ( !function_exists( 'wfJsonI18nShimf931c1431e4504b8' ) ) {
 
 	$GLOBALS['wgHooks']['LocalisationCacheRecache'][] = 'wfJsonI18nShimf931c1431e4504b8';
 }
+=======
+$messages['en'] = array(
+        'skinname-chameleon' => 'Chameleon',
+        'chameleon-desc' => 'The Chameleon skin.',
+
+		'chameleon-loggedin' => 'You are logged in as $1.',
+		'chameleon-notloggedin' => 'You are not logged in',
+
+		'chameleon-newmessages' => 'You have new messages.',
+		'chameleon-nonewmessages' => 'You have no new messages.',
+);
+
+$messages['qqq'] = array(
+        'skinname-chameleon' => 'The name of this skin',
+        'chameleon-desc' => '{{desc|name=Chameleon|url=http://www.mediawiki.org/wiki/Skin:Chameleon}}',
+
+		'chameleon-loggedin' => 'Text shown, when the user is logged in.',
+		'chameleon-notloggedin' => 'Text shown, when the user is not logged in.',
+
+		'chameleon-newmessages' => 'Text shown, when the user has new messages.',
+		'chameleon-nonewmessages' => 'Text shown, when the user has no new messages.',
+);
+>>>>>>> ShakePeers/shakepeers

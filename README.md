@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Versión adaptada para @eadpucv
 
 # Chameleon skin
@@ -49,3 +50,9 @@ You can use the Chameleon skin under the [GNU General Public License, version
 [composer]: https://getcomposer.org/
 [twbs]: http://getbootstrap.com/
 [license]: https://www.gnu.org/copyleft/gpl.html
+=======
+mediawiki-skins-chameleon
+=========================
+
+Fork of "mediawiki/skins/chameleon" used on http://shakepeers.org/
+>>>>>>> ShakePeers/shakepeers
