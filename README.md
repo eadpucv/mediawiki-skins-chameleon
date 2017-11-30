@@ -1,5 +1,7 @@
-<<<<<<< HEAD
-Versión adaptada para @eadpucv
+
+  Versión adaptada para @eadpucv
+
+
 
 # Chameleon skin
 [![Build Status](https://travis-ci.org/wikimedia/mediawiki-skins-chameleon.svg?branch=master)](https://travis-ci.org/wikimedia/mediawiki-skins-chameleon)
@@ -50,9 +52,9 @@ You can use the Chameleon skin under the [GNU General Public License, version
 [composer]: https://getcomposer.org/
 [twbs]: http://getbootstrap.com/
 [license]: https://www.gnu.org/copyleft/gpl.html
-=======
+
+
 mediawiki-skins-chameleon
 =========================
 
 Fork of "mediawiki/skins/chameleon" used on http://shakepeers.org/
->>>>>>> ShakePeers/shakepeers
