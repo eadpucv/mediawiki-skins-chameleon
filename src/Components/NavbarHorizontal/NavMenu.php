@@ -1,10 +1,10 @@
 <?php
 /**
- * File holding the Silent component class
+ * File holding the NavbarHorizontal\NavMenu class
  *
  * This file is part of the MediaWiki skin Chameleon.
  *
- * @copyright 2013 - 2014, Stephan Gambke
+ * @copyright 2013 - 2017, Stephan Gambke
  * @license   GNU General Public License, version 3 (or any later version)
  *
  * The Chameleon skin is free software: you can redistribute it and/or modify
@@ -21,31 +21,31 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @file
- * @ingroup Skins
+ * @ingroup   Skins
  */
 
-namespace Skins\Chameleon\Components;
+namespace Skins\Chameleon\Components\NavbarHorizontal;
 
+use Skins\Chameleon\Components\Component;
+use Skins\Chameleon\Components\NavMenu as GenNavMenu;
 
 /**
- * The Silent class.
+ * The NavbarHorizontal\NavMenu class.
  *
- * This component may be used as a placeholder during development.
- *
- * It is also used internally.
+ * Provides a NavMenu component to be included in a NavbarHorizontal component.
  *
  * @author Stephan Gambke
- * @since 1.1
+ * @since 1.6
  * @ingroup Skins
  */
-class Silent extends Component {
+class NavMenu extends Component {
 
 	/**
-	 * Builds the HTML code for this component
-	 *
-	 * @return String the HTML code
+	 * @return String
 	 */
 	public function getHtml() {
-		return '';
+		$navMenu = new GenNavMenu( $this->getSkinTemplate(), $this->getDomElement(), $this->getIndent() );;
+		return '<ul class="nav navbar-nav">' . $navMenu->getHtml() . "</ul>\n";
 	}
+
 }

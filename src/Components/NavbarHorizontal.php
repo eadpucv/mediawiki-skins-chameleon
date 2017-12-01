@@ -4,7 +4,7 @@
  *
  * This file is part of the MediaWiki skin Chameleon.
  *
- * @copyright 2013 - 2014, Stephan Gambke
+ * @copyright 2013 - 2017, Stephan Gambke
  * @license   GNU General Public License, version 3 (or any later version)
  *
  * The Chameleon skin is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 
 namespace Skins\Chameleon\Components;
 
+use DOMElement;
 use Skins\Chameleon\IdRegistry;
 
 /**
@@ -109,7 +110,7 @@ class NavbarHorizontal extends Component {
 	protected function buildNavBarOpeningTags() {
 		$openingTags =
 			$this->indent() . '<!-- navigation bar -->' .
-			$this->indent() . \HTML::openElement( 'nav', array(
+			$this->indent() . \Html::openElement( 'nav', array(
 					'class' => 'navbar navbar-default p-navbar ' . $this->getClassString(),
 					'role'  => 'navigation',
 					'id'    => $this->getHtmlId()
@@ -142,9 +143,11 @@ class NavbarHorizontal extends Component {
 		if ( !empty( $elements[ 'right' ] ) ) {
 
 			$elements[ 'left' ][ ] =
-				'<div class="navbar-right-aligned">' .
+				$this->indent( 1 ) . '<div class="navbar-right-aligned">' .
 				implode( $elements[ 'right' ] ) .
-				'</div>';
+				$this->indent() . '</div> <!-- navbar-right-aligned -->';
+
+			$this->indent( -1 );
 		}
 
 		return
@@ -174,14 +177,12 @@ class NavbarHorizontal extends Component {
 	}
 
 	/**
-	 * @param \DOMElement $node
+	 * @param DOMElement $node
 	 * @param $elements
 	 */
 	protected function buildAndCollectNavBarElementFromDomElement( $node, &$elements ) {
 
-		if ( is_a( $node, 'DOMElement' ) && $node->tagName === 'component' && $node->hasAttribute( 'type' ) ) {
-
-			$html = $this->buildNavBarElementFromDomElement( $node );
+		if ( $node instanceof DOMElement && $node->tagName === 'component' && $node->hasAttribute( 'type' ) ) {
 
 			$position = $node->getAttribute( 'position' );
 
@@ -189,8 +190,16 @@ class NavbarHorizontal extends Component {
 				$position = 'left';
 			}
 
+			$indentation = ( $position === 'right' ) ? 2 : 1;
+
+			$this->indent( $indentation );
+			$html = $this->buildNavBarElementFromDomElement( $node );
+			$this->indent( -$indentation );
+
 			$elements[ $position ][ ] = $html;
 
+		// } else {
+			// TODO: Warning? Error?
 		}
 	}
 
@@ -200,186 +209,7 @@ class NavbarHorizontal extends Component {
 	 * @return string
 	 */
 	protected function buildNavBarElementFromDomElement( $node ) {
-		switch ( $node->getAttribute( 'type' ) ) {
-			case 'Logo':
-				$html = $this->getLogo( $node );
-				break;
-			case 'NavMenu':
-				$html = $this->getNavMenu( $node );
-				break;
-			case 'PageTools':
-				$html = $this->getPageTools( $node );
-				break;
-			case 'SearchBar':
-				$html = $this->getSearchBar( $node );
-				break;
-			case 'PersonalTools':
-				$html = $this->getPersonalTools();
-				break;
-			case 'Menu':
-				$html = $this->getMenu( $node );
-				break;
-			default:
-				$html = '';
-		}
-		return $html;
-	}
-
-	/**
-	 * Creates HTML code for the wiki logo in a navbar
-	 *
-	 * @param \DOMElement $domElement
-	 *
-	 * @return String
-	 */
-	protected function getLogo( \DOMElement $domElement = null ) {
-
-		$logo = new Logo( $this->getSkinTemplate(), $domElement, $this->getIndent() );
-		$logo->addClasses( 'navbar-brand' );
-
-//        return \Html::rawElement( 'li', array(), $logo->getHtml() );
-		return $logo->getHtml();
-	}
-
-	/**
-	 * Creates a list of navigational links usually found in the sidebar
-	 *
-	 * @param \DOMElement $domElement
-	 *
-	 * @return string
-	 */
-	protected function getNavMenu( \DOMElement $domElement = null ) {
-
-		$navMenu = new NavMenu( $this->getSkinTemplate(), $domElement, $this->getIndent() );
-
-		return '<ul class="nav navbar-nav">' . $navMenu->getHtml() . "</ul>\n";
-
-	}
-
-	/**
-	 * Create a dropdown containing the page tools (page, talk, edit, history,
-	 * ...)
-	 *
-	 * @param \DOMElement $domElement
-	 *
-	 * @return string
-	 */
-	protected function getPageTools( \DOMElement $domElement = null ) {
-
-		$pageTools = new PageTools( $this->getSkinTemplate(), $domElement, $this->getIndent() );
-
-		$pageTools->setFlat( true );
-		$pageTools->removeClasses( 'text-center list-inline' );
-		$pageTools->addClasses( 'dropdown-menu' );
-
-		$ret = $pageTools->getHtml();
-
-		if ( $ret !== '' ) {
-			$ret =
-				$this->indent() . '<!-- page tools -->' .
-				$this->indent() . '<ul class="nav navbar-nav">' . \Html::openElement( 'li', array( 'class' => 'dropdown' ) ) .
-				$this->indent( 1 ) . '<a data-toggle="dropdown" class="dropdown-toggle" href="#">' . $this->getSkinTemplate()->getMsg( 'specialpages-group-pagetools' )->text() . '<b class="caret"></b></a>' .
-				$ret .
-				$this->indent( -1 ) . '</li></ul>' . "\n";
-		}
-		return $ret;
-	}
-
-	/**
-	 * @param \DOMElement $domElement
-	 *
-	 * @return string
-	 */
-	protected function getSearchBar( \DOMElement $domElement = null ) {
-
-		$search = new SearchBar( $this->getSkinTemplate(), $domElement, $this->getIndent() );
-		$search->addClasses( 'navbar-form' );
-
-		return $search->getHtml();
-	}
-
-	/**
-	 * Creates a user's personal tools and the newtalk notifier
-	 *
-	 * @return string
-	 */
-	protected function getPersonalTools() {
-
-		$user = $this->getSkinTemplate()->getSkin()->getUser();
-
-		if ( $user->isLoggedIn() ) {
-			$toolsClass = 'navbar-userloggedin';
-			$toolsLinkText = $this->getSkinTemplate()->getMsg( 'chameleon-loggedin' )->params( $user->getName() )->text();
-		} else {
-			$toolsClass = 'navbar-usernotloggedin';
-			$toolsLinkText = $this->getSkinTemplate()->getMsg( 'chameleon-notloggedin' )->text();
-		}
-
-		// start personal tools element
-
-		$ret =
-			$this->indent() . '<!-- personal tools -->' .
-			$this->indent() . '<ul class="navbar-personaltools navbar-nav" >' .
-			$this->indent( 1 ) . '<li class="dropdown navbar-personaltools-tools">' .
-			$this->indent( 1 ) . '<a class="dropdown-toggle glyphicon glyphicon-user ' . $toolsClass . '" href="#" data-toggle="dropdown" title="' . $toolsLinkText . '" ></a>' .
-			$this->indent() . '<ul class="p-personal-tools dropdown-menu dropdown-menu-right" >';
-
-		$this->indent( 1 );
-
-		// add personal tools (links to user page, user talk, prefs, ...)
-		foreach ( $this->getSkinTemplate()->getPersonalTools() as $key => $item ) {
-			$ret .= $this->indent() . $this->getSkinTemplate()->makeListItem( $key, $item );
-		}
-
-		$ret .=
-			$this->indent( -1 ) . '</ul>' . $this->indent( -1 ) . '</li>';
-
-		// if the user is logged in, add the newtalk notifier
-		if ( $user->isLoggedIn() ) {
-
-			$newMessagesAlert = '';
-			$newtalks = $user->getNewMessageLinks();
-			$out = $this->getSkinTemplate()->getSkin()->getOutput();
-
-			// Allow extensions to disable the new messages alert;
-			// since we do not display the link text, we ignore the actual value returned in $newMessagesAlert
-			if ( wfRunHooks( 'GetNewMessagesAlert', array( &$newMessagesAlert, $newtalks, $user, $out ) ) ) {
-
-				if ( count( $user->getNewMessageLinks() ) > 0 ) {
-					$newtalkClass = 'navbar-newtalk-available';
-					$newtalkLinkText = $this->getSkinTemplate()->getMsg( 'chameleon-newmessages' )->text();
-				} else {
-					$newtalkClass = 'navbar-newtalk-not-available';
-					$newtalkLinkText = $this->getSkinTemplate()->getMsg( 'chameleon-nonewmessages' )->text();
-				}
-
-				$ret .= $this->indent() . '<li class="navbar-newtalk-notifier">' .
-					$this->indent( 1 ) . '<a class="dropdown-toggle glyphicon glyphicon-envelope ' . $newtalkClass . '" title="' .
-					$newtalkLinkText . '" href="' . $user->getTalkPage()->getLinkURL('redirect=no') . '"></a>' .
-					$this->indent( -1 ) . '</li>';
-
-			}
-
-		}
-
-		$ret .= $this->indent( -1 ) . '</ul>' . "\n";
-
-		return $ret;
-	}
-
-	/**
-	 * Creates a list of navigational links from a message key or message text
-	 *
-	 * @param \DOMElement $domElement
-	 *
-	 * @return string
-	 */
-	protected function getMenu( \DOMElement $domElement = null ) {
-
-		$menu = new Menu( $this->getSkinTemplate(), $domElement, $this->getIndent() );
-
-		return '<ul class="nav navbar-nav">' . $menu->getHtml() . "</ul>\n";
-
+		return $this->getSkin()->getComponentFactory()->getComponent( $node, $this->getIndent() )->getHtml();
 	}
 
 	/**
@@ -390,13 +220,13 @@ class NavbarHorizontal extends Component {
 	protected function buildHead( $headElements ) {
 
 		$head =
-			"<div class=\"navbar-header\">\n" .
-			"\t<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#" . $this->getHtmlId() . "-collapse\">\n" .
-			"\t\t<span class=\"sr-only\">Toggle navigation</span>\n" .
-			str_repeat( "\t\t<span class=\"icon-bar\"></span>\n", 3 ) .
-			"\t</button>\n" .
+			$this->indent() . "<div class=\"navbar-header\">\n" .
+			$this->indent( 1 ) . "<button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#" . $this->getHtmlId() . "-collapse\">" .
+			$this->indent( 1 ) . "<span class=\"sr-only\">Toggle navigation</span>" .
+			$this->indent() . str_repeat( "<span class=\"icon-bar\"></span>", 3 ) .
+			$this->indent( -1 ) . "</button>\n" .
 			implode( '', $headElements ) . "\n" .
-			"</div>\n";
+			$this->indent( -1 ) . "</div>\n";
 
 		return $head;
 	}
@@ -408,8 +238,10 @@ class NavbarHorizontal extends Component {
 	 */
 	protected function buildTail( $tailElements ) {
 
-		return '<div class="collapse navbar-collapse" id="' . $this->getHtmlId() . '-collapse">' .
-		implode( '', $tailElements ) . '</div><!-- /.navbar-collapse -->';
+		return
+			$this->indent() . '<div class="collapse navbar-collapse" id="' . $this->getHtmlId() . '-collapse">' .
+			implode( '', $tailElements ) .
+			$this->indent() . '</div><!-- /.navbar-collapse -->';
 	}
 
 	/**

@@ -1,10 +1,10 @@
 <?php
 /**
- * File holding the Silent component class
+ * File holding the NavbarHorizontal\Logo class
  *
  * This file is part of the MediaWiki skin Chameleon.
  *
- * @copyright 2013 - 2014, Stephan Gambke
+ * @copyright 2013 - 2017, Stephan Gambke
  * @license   GNU General Public License, version 3 (or any later version)
  *
  * The Chameleon skin is free software: you can redistribute it and/or modify
@@ -21,31 +21,34 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @file
- * @ingroup Skins
+ * @ingroup   Skins
  */
 
-namespace Skins\Chameleon\Components;
+namespace Skins\Chameleon\Components\NavbarHorizontal;
 
+use Skins\Chameleon\Components\Component;
+use Skins\Chameleon\Components\Logo as GenLogo;
 
 /**
- * The Silent class.
+ * The NavbarHorizontal\Logo class.
  *
- * This component may be used as a placeholder during development.
- *
- * It is also used internally.
+ * Provides a Logo component to be included in a NavbarHorizontal component.
  *
  * @author Stephan Gambke
- * @since 1.1
+ * @since 1.6
  * @ingroup Skins
  */
-class Silent extends Component {
+class Logo extends Component {
 
 	/**
-	 * Builds the HTML code for this component
-	 *
-	 * @return String the HTML code
+	 * @return String
 	 */
 	public function getHtml() {
-		return '';
+
+		$logo = new GenLogo( $this->getSkinTemplate(), $this->getDomElement(), $this->getIndent() );
+		$logo->addClasses( 'navbar-brand' );
+
+		return $logo->getHtml();
 	}
+
 }

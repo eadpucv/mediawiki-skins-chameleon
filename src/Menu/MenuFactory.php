@@ -4,7 +4,7 @@
  *
  * This file is part of the MediaWiki skin Chameleon.
  *
- * @copyright 2013 - 2014, Stephan Gambke
+ * @copyright 2013 - 2017, Stephan Gambke
  * @license   GNU General Public License, version 3 (or any later version)
  *
  * The Chameleon skin is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@
  */
 
 namespace Skins\Chameleon\Menu;
+use Message;
 
 /**
  * Class MenuFactory
@@ -36,7 +37,7 @@ namespace Skins\Chameleon\Menu;
 class MenuFactory {
 
 	/**
-	 * @param \Message|string|string[] $message
+	 * @param Message|string|string[] $message
 	 * @param bool                     $forContent
 	 *
 	 * @throws \MWException
@@ -46,12 +47,10 @@ class MenuFactory {
 	public function getMenuFromMessage( $message, $forContent = false ) {
 
 		if ( is_string( $message ) || is_array( $message ) ) {
-			$message = \Message::newFromKey( $message );
+			$message = Message::newFromKey( $message );
 		}
 
-		if ( !is_a( $message, '\\Message' ) ) {
-			throw new \MWException( 'String, array of strings or Message object expected. Got ' . is_object( $message ) ? get_class( $message ) : gettype( $message ) . '.' );
-		}
+		$this->assert( $message instanceof Message, 'String, array of strings or Message object expected.', $message );
 
 		if ( $forContent ) {
 			$message = $message->inContentLanguage();
@@ -73,12 +72,20 @@ class MenuFactory {
 	 */
 	public function getMenuFromMessageText( $text, $forContent = false ) {
 
-		if ( !is_string( $text ) ) {
-			throw new \MWException( 'String expected. Got ' . is_object( $text ) ? get_class( $text ) : gettype( $text ) . '.' );
-		}
+		$this->assert( is_string( $text ), 'String expected.', $text );
 
 		$lines = explode( "\n", trim( $text ) );
 
 		return new MenuFromLines( $lines, $forContent );
+	}
+
+	/**
+	 * @param $message
+	 * @throws \MWException
+	 */
+	protected function assert( $condition, $message, $target ) {
+		if ( !$condition ) {
+			throw new \MWException( $message . ' Got ' . (is_object( $target ) ? get_class( $target ) : gettype( $target )) . '.' );
+		}
 	}
 }

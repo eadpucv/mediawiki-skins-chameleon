@@ -4,7 +4,7 @@
  *
  * This file is part of the MediaWiki skin Chameleon.
  *
- * @copyright 2013 - 2014, Stephan Gambke
+ * @copyright 2013 - 2016, Stephan Gambke
  * @license   GNU General Public License, version 3 (or any later version)
  *
  * The Chameleon skin is free software: you can redistribute it and/or modify
@@ -40,14 +40,11 @@ class SkinChameleon extends SkinTemplate {
 	public $useHeadElement = true;
 
 	private $componentFactory;
-	private $output;
 
 	/**
 	 * @param $out OutputPage object
 	 */
-	function setupSkinUserCss( OutputPage $out ) {
-
-		$this->output = $out;
+	public function setupSkinUserCss( OutputPage $out ) {
 
 		// load Bootstrap styles
 		$out->addModuleStyles(
@@ -60,7 +57,7 @@ class SkinChameleon extends SkinTemplate {
 	/**
 	 * @param \OutputPage $out
 	 */
-	function initPage( OutputPage $out ) {
+	public function initPage( OutputPage $out ) {
 
 		parent::initPage( $out );
 
@@ -69,12 +66,29 @@ class SkinChameleon extends SkinTemplate {
 	}
 
 	/**
+	 * @return QuickTemplate
+	 */
+	protected function setupTemplateForOutput() {
+
+		$tpl = parent::setupTemplateForOutput();
+
+		$this->getComponentFactory()->setSkinTemplate( $tpl );
+
+		$tpl->setRef( 'skin', $this );
+		$this->addSkinModulesToOutput();
+
+		return $tpl;
+	}
+
+	/**
 	 * @return ComponentFactory
 	 */
 	public function getComponentFactory() {
 
 		if ( ! isset( $this->componentFactory ) ) {
-			$this->componentFactory = new \Skins\Chameleon\ComponentFactory( $GLOBALS['egChameleonLayoutFile'] );
+			$this->componentFactory = new \Skins\Chameleon\ComponentFactory(
+				$this->getLayoutFilePath()
+			);
 		}
 
 		return $this->componentFactory;
@@ -82,7 +96,7 @@ class SkinChameleon extends SkinTemplate {
 
 	public function addSkinModulesToOutput() {
 		// load Bootstrap scripts
-		$out = $this->output;
+		$out = $this->getOutput();
 		$out->addModules( array( 'ext.bootstrap.scripts' ) );
 		$out->addModules( $this->getComponentFactory()->getRootComponent()->getResourceLoaderModules() );
 
@@ -93,7 +107,16 @@ class SkinChameleon extends SkinTemplate {
 	 * @return string
 	 */
 	public function getPageClasses( $title ) {
-		$layoutName = Sanitizer::encodeAttribute( 'layout-' . basename( $GLOBALS['egChameleonLayoutFile'], '.xml' ) );
+		$layoutFilePath = $this->getLayoutFilePath();
+		$layoutName = Sanitizer::escapeClass( 'layout-' . basename( $layoutFilePath, '.xml' ) );
 		return implode( ' ', array( parent::getPageClasses( $title ), $layoutName ) );
+	}
+
+	/**
+	 * Template method that can be overridden by subclasses
+	 * @return string Path to layout file
+	 */
+	protected function getLayoutFilePath() {
+		return $GLOBALS['egChameleonLayoutFile'];
 	}
 }

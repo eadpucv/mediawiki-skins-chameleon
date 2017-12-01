@@ -190,13 +190,33 @@ abstract class Component {
 	 * Inserts a new line and a number of tabs according to the new indentation level.
 	 *
 	 * @param int $indent
-	 *
 	 * @return string
+	 * @throws \MWException
 	 */
 	protected function indent( $indent = 0 ) {
 
 		$this->mIndent += (int) $indent;
 
+		if ( $this->mIndent < 0 ) {
+			throw new \MWException('Attempted HTML indentation of ' .$this->mIndent );
+		}
+
 		return "\n" . str_repeat( "\t", $this->mIndent );
+	}
+
+	/**
+	 * @param string $attributeName
+	 * @param null | string $default
+	 * @return null | string
+	 */
+	protected function getAttribute( $attributeName, $default = null ) {
+
+		$element = $this->getDomElement();
+
+		if ( $element !== null && $element->hasAttribute( $attributeName ) ) {
+			return $element->getAttribute( $attributeName );
+		}
+
+		return $default;
 	}
 }
